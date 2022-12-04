@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Logo from "../assets/padel-logo.svg";
 import { CartWidget } from "./CartWidget";
 const links = [
+  { id: 0, nombre: "Home" },
   { id: 1, nombre: "Paleta" },
   { id: 2, nombre: "Zapatillas" },
   { id: 3, nombre: "Remeras" },
@@ -10,15 +12,15 @@ const links = [
 
 export const Navbar = () => {
   return (
-    <nav className="bg-white border-gray-200 px-2 py-2.5 rounded dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 px-2 py-2.5  dark:bg-gray-900">
       <div className="flex flex-wrap items-center justify-between w-full">
         <div className="flex-1">
-          <a href="https://flowbite.com/" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img src={Logo} className="h-6 mr-3 sm:h-9" alt="BelaStore Logo" />
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               BelaStore
             </span>
-          </a>
+          </Link>
         </div>
         <button
           data-collapse-toggle="navbar-default"
@@ -49,13 +51,13 @@ export const Navbar = () => {
           <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 md:justify-center">
             {links.map((objetos) => (
               <li key={objetos.id}>
-                <a
-                  href="#"
+                <Link
+                  to={objetos.id === 0 ? `/` : `/category/${objetos.id}`}
                   className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-white md:p-0 dark:text-white"
                   aria-current="page"
                 >
                   {objetos.nombre}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
