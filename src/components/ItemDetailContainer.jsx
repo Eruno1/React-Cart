@@ -20,8 +20,9 @@ export const ItemDetailContainer = () => {
     setLoader(false);
   };
 
-  const buyAlert = () => {
+  const onAdd = (item) => {
     alert(`Compraste ${data.name}`);
+    addToCart(item);
   };
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export const ItemDetailContainer = () => {
               </span>
               <button
                 className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
-                onClick={buyAlert}
+                onClick={onAdd}
               >
                 Comprar
               </button>

@@ -8,6 +8,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 33,
     category: 1,
     description:
       "Nueva Vertex 03 2022, está concebida para jugadores profesionales o avanzados, es una paleta con forma de diamante, de máxima potencia y con superfcie rugosa Topspin.",
@@ -21,6 +22,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 17,
     category: 1,
     description:
       "Paleta con forma de diamante, de máxima potencia y alto rendimiento sin pérdida de control. Es una paleta de la gama PRO, concebida para jugadores profiesionales o avanzados.",
@@ -34,6 +36,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 2,
     category: 1,
     description:
       "Hecha con un nuevo molde de forma híbrida, más cercano al formato lágrima, para desarrollar todo el potencial del juego de ataque de Gemma. Pero con un balance medio para controlar su potencia",
@@ -47,6 +50,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 8,
     category: 2,
     description:
       "Zapatilla utilizada por Paquito Navarro, está concebida para jugadores profesionales o avanzados que buscan un calzado flexible y ligero que permita movimientos rápidos, garantizando una mayor estabilidad y tracción.",
@@ -60,6 +64,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 42,
     category: 2,
     description:
       "Zapatilla utilizada por Fede Chingotto, está diseñada para jugador de nivel profesional o avanzado que requieren un calzado flexible y ligero. Además cuenta con un diseño sobrio y un ajuste con lengüeta tradicional.",
@@ -73,6 +78,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 12,
     category: 2,
     description:
       "Zapatilla utilizada por Fede Chingotto, está diseñada para jugador de nivel profesional o avanzado que requieren un calzado flexible y ligero. Además cuenta con un diseño sobrio y un ajuste con lengüeta tradicional.",
@@ -86,6 +92,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 83,
     category: 3,
     description: "Remera básica de Microset.",
   },
@@ -98,6 +105,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 45,
     category: 3,
     description: "Remera manga corta de Heat Gear.",
   },
@@ -110,6 +118,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 43,
     category: 4,
     description:
       "Pantalón de jogging de Polisap Con elástico, cordón y bolsillos.",
@@ -123,6 +132,7 @@ export const products = [
     priceUSD: 0,
     currency: "ARS",
     cantidad: 1,
+    stock: 0,
     category: 4,
     description: "Short de Micro Day combinado con bolsillos laterales. ",
   },

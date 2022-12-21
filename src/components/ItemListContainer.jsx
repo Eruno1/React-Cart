@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { json, Link, useParams } from "react-router-dom";
 import { customFetch } from "../utils/customFetch";
 import { products } from "../utils/products";
 import { Spinner } from "./Spinner";
@@ -33,6 +33,9 @@ export const ItemListContainer = () => {
   if (loader) {
     return <Spinner />;
   }
+
+  const json = JSON.stringify(products);
+  console.log(json);
 
   return (
     <div className="flex flex-wrap justify-center items-center">
