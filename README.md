@@ -1,1 +1,1 @@
-# ![demostracion]En este proyecto se trabajó en un e-commerce de productos de padel. Se utilizó Tailwind como framework para css. Ademas de las dependencias utilizadas en clase, se agregué Toastify para personalizar las alertas y no usar el tipico alert.
+En este proyecto se trabajó en un e-commerce de productos de padel. Se utilizó Tailwind como framework para css. Ademas de las dependencias utilizadas en clase, se agregué Toastify para personalizar las alertas y no usar el tipico alert.
