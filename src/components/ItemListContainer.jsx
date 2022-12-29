@@ -1,41 +1,45 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { json, Link, useParams } from "react-router-dom";
-import { customFetch } from "../utils/customFetch";
-import { products } from "../utils/products";
+import { Link, useParams } from "react-router-dom";
+import { db } from "../utils/firebaseConfig";
 import { Spinner } from "./Spinner";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export const ItemListContainer = () => {
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
   const { idCategory } = useParams();
-  const filterData = () => {
+
+  const fetchDataFromFirestore = async () => {
+    let q;
     if (idCategory) {
-      const filteredData = products.filter(
-        (items) => items.category === Number(idCategory)
+      q = query(
+        collection(db, "products"),
+        where("category", "==", Number(idCategory))
       );
-      return filteredData;
     } else {
-      return products;
+      q = query(collection(db, "products"));
     }
-  };
-  const fetchProducts = async () => {
-    const productList = await customFetch(2000, filterData());
-    setData(productList);
+    const querySnapshot = await getDocs(q);
+    const dataFromFirestore = querySnapshot.docs.map((item) => ({
+      id: item.id,
+      ...item.data(),
+    }));
     setLoader(false);
+    return dataFromFirestore;
   };
 
   useEffect(() => {
-    setLoader(true);
-    fetchProducts();
+    fetchDataFromFirestore()
+      .then((result) => {
+        return setData(result);
+      })
+      .catch((err) => console.log(err));
   }, [idCategory]);
 
   if (loader) {
     return <Spinner />;
   }
-
-  const json = JSON.stringify(products);
-  console.log(json);
 
   return (
     <div className="flex flex-wrap justify-center items-center">

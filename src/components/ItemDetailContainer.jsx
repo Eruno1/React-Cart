@@ -1,33 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { customFetch } from "../utils/customFetch";
-import { products } from "../utils/products";
+import { db } from "../utils/firebaseConfig";
 import { Spinner } from "./Spinner";
+import { getDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
 
 export const ItemDetailContainer = () => {
   const [data, setData] = useState({});
+  const [itemQty, setItemQty] = useState(0);
   const [loader, setLoader] = useState(true);
   const { idItem } = useParams();
-  const detailProducts = () => {
-    const productDetail = products.find((item) => item.id === Number(idItem));
-    console.log(productDetail);
-    return productDetail;
+  const [buyState, setBuyState] = useState(true);
+  const { addToCart } = useContext(CartContext);
+
+  const detailProducts = async () => {
+    const docRef = doc(db, "products", idItem);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setData({ id: idItem, ...docSnap.data() });
+      setLoader(false);
+    } else {
+      console.log("No hay tal documento");
+    }
   };
 
-  const fetchProduct = async () => {
-    const singleProduct = await customFetch(2000, detailProducts());
-    setData(singleProduct);
-    setLoader(false);
+  const decreaseQty = () => {
+    if (itemQty <= 1) {
+      toast.info("Agregar por lo menos 1 item.");
+    } else {
+      setItemQty(itemQty - 1);
+    }
   };
 
-  const onAdd = (item) => {
-    alert(`Compraste ${data.name}`);
-    addToCart(item);
+  const incrementQty = () => {
+    if (itemQty >= data.stock) {
+      toast.info("No hay mas stock!");
+    } else {
+      setItemQty(itemQty + 1);
+    }
+  };
+
+  const onAdd = () => {
+    toast.success(`Se agrego exitosamente al carrito ${data.name}`);
+    addToCart(data, itemQty);
+
+    setBuyState(false);
   };
 
   useEffect(() => {
+    detailProducts();
+
     setLoader(true);
-    fetchProduct();
   }, [idItem]);
 
   if (loader) {
@@ -50,19 +75,47 @@ export const ItemDetailContainer = () => {
             <div className="flex mb-4"></div>
             <p className="leading-relaxed">{data.description}</p>
             <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5"></div>
-            <div className="flex">
-              <span className="title-font font-medium text-2xl text-gray-900">
-                {data.price.toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                })}
-              </span>
-              <button
-                className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
-                onClick={onAdd}
-              >
-                Comprar
-              </button>
+            <div className="title-font font-medium text-2xl text-gray-900">
+              {data.price.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </div>
+            <div className="flex gap-3 mt-4">
+              <div className="flex items-center gap-2">
+                <button
+                  className="flex ml-auto text-black font-bold border-[1px]  px-2 w-[30px] h-[30px] focus:outline-none hover:text-gray-700 hover:bg-gray-200 rounded text-xl items-center justify-center"
+                  onClick={decreaseQty}
+                >
+                  -
+                </button>
+                <span type="text" className="max-w-[30px] text-center">
+                  {itemQty}
+                </span>
+                <button
+                  className="flex ml-auto text-black font-bold border-[1px] px-2 w-[30px] h-[30px] focus:outline-none hover:text-gray-700 hover:bg-gray-200 rounded text-xl items-center justify-center"
+                  onClick={incrementQty}
+                >
+                  +
+                </button>
+              </div>
+              {buyState ? (
+                <button
+                  className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded disabled:bg-gray-500 disabled:cursor-not-allowed"
+                  onClick={onAdd}
+                  disabled={itemQty <= 0 ? true : false}
+                >
+                  Comprar
+                </button>
+              ) : (
+                <Link
+                  to={"/cart"}
+                  className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
+                >
+                  <button>Checkout</button>
+                </Link>
+              )}
+
               <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                 <svg
                   fill="currentColor"
@@ -76,6 +129,7 @@ export const ItemDetailContainer = () => {
                 </svg>
               </button>
             </div>
+            <div className="mt-2">Stock disponible: {data.stock - itemQty}</div>
           </div>
         </div>
       </div>
